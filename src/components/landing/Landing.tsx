@@ -23,8 +23,18 @@ export async function Landing() {
       )}
       <main className="mx-auto max-w-6xl px-6 py-16">
         {/* Hero */}
-        <section className="mb-20">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-paper-2 px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-muted">
+        <section className="hero-saas mb-20 rounded-2xl border border-line bg-paper-2/60 px-8 py-14 shadow-[0_1px_0_0_color-mix(in_srgb,var(--line)_60%,transparent),0_24px_64px_-32px_color-mix(in_srgb,var(--loam)_12%,transparent)] md:px-12 md:py-16">
+          <div className="hero-saas-grid" aria-hidden="true" />
+          <div className="hero-saas-dots" aria-hidden="true" />
+          <div className="hero-saas-ring" aria-hidden="true" />
+          <div className="hero-saas-ring-inner" aria-hidden="true" />
+          <div className="hero-saas-glow-murram" aria-hidden="true" />
+          <div className="hero-saas-glow-sky" aria-hidden="true" />
+          <div className="hero-saas-glow-growth" aria-hidden="true" />
+          <div className="hero-saas-fade" aria-hidden="true" />
+
+          <div className="relative z-10">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-line/80 bg-paper/80 px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-muted backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-growth" />
             Live on WhatsApp
           </div>
@@ -60,6 +70,7 @@ export async function Landing() {
           <p className="font-mono text-sm text-muted">
             {questionCount} questions answered so far
           </p>
+          </div>
         </section>
 
         {/* Pipeline */}
