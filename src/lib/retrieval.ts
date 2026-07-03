@@ -1,13 +1,16 @@
-import "server-only";
-
 import type { KbEntry } from "@/types";
-import { embed } from "./embeddings";
-import { supabase } from "./supabase";
+import { demoRetrieveRelevant, isDemoMode } from "./demo";
 
 export async function retrieveRelevant(
   question: string,
   k: number = 5
 ): Promise<KbEntry[]> {
+  if (isDemoMode()) {
+    return demoRetrieveRelevant(question, k);
+  }
+
+  const { embed } = await import("./embeddings");
+  const { supabase } = await import("./supabase");
   const queryEmbedding = await embed(question);
 
   const { data, error } = await supabase().rpc("match_kb_entries", {

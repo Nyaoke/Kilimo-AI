@@ -1,8 +1,7 @@
-import "server-only";
-
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import type { EvalCase, AskResult } from "@/types";
+import { demoJudgeScore, isDemoMode } from "@/lib/demo";
 import { logger } from "@/lib/logger";
 
 const JUDGE_MODEL = "claude-haiku-4-5-20251001";
@@ -33,6 +32,15 @@ export async function judge(
   testCase: EvalCase,
   result: AskResult
 ): Promise<{ score: number; reasoning: string }> {
+  if (isDemoMode()) {
+    return demoJudgeScore(
+      testCase.must_cite_source,
+      testCase.should_escalate,
+      result,
+      testCase.language
+    );
+  }
+
   const rubric = `You are an evaluation judge for Kilimo AI, a Kenyan agronomy WhatsApp bot.
 
 Score the assistant response from 0 to 100 using this rubric:

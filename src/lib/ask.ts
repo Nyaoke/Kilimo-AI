@@ -1,8 +1,7 @@
-import "server-only";
-
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import type { AskResult, Language } from "@/types";
+import { demoSynthesizeAnswer, isDemoMode } from "./demo";
 import { detectLanguage } from "./language";
 import { logger } from "./logger";
 import { buildSystemPrompt, PROMPT_VERSION } from "./prompt";
@@ -68,6 +67,22 @@ export async function ask(
 
   try {
     const retrieved = await retrieveRelevant(question, 5);
+
+    if (isDemoMode()) {
+      const synthesized = demoSynthesizeAnswer(question, language, retrieved);
+      const threshold = getEscalationThreshold();
+      const shouldEscalate =
+        synthesized.should_escalate || synthesized.confidence < threshold;
+      return {
+        ...synthesized,
+        should_escalate: shouldEscalate,
+        language,
+        retrieved_ids: retrieved.map((e) => e.id),
+        latency_ms: Date.now() - start,
+        prompt_version: PROMPT_VERSION,
+      };
+    }
+
     const systemPrompt = buildSystemPrompt(retrieved, language);
     const client = getAnthropicClient();
 

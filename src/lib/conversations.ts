@@ -1,6 +1,12 @@
-import "server-only";
-
 import type { AskResult } from "@/types";
+import {
+  demoGetConversationCount,
+  demoGetEvalRuns,
+  demoGetLatestEvalRun,
+  demoGetRecentConversations,
+  demoLogConversation,
+  isDemoMode,
+} from "./demo";
 import { logger } from "./logger";
 import { supabase } from "./supabase";
 
@@ -15,6 +21,20 @@ export async function logConversation({
   question,
   result,
 }: LogConversationInput): Promise<void> {
+  if (isDemoMode()) {
+    demoLogConversation({
+      phoneHash,
+      question,
+      language: result.language,
+      answer: result.answer,
+      retrieved_ids: result.retrieved_ids,
+      confidence: result.confidence,
+      escalated: result.should_escalate,
+      latency_ms: result.latency_ms,
+    });
+    return;
+  }
+
   try {
     const { error } = await supabase().from("conversations").insert({
       phone_number: phoneHash,
@@ -37,6 +57,7 @@ export async function logConversation({
 }
 
 export async function getConversationCount(): Promise<number> {
+  if (isDemoMode()) return demoGetConversationCount();
   try {
     const { count, error } = await supabase()
       .from("conversations")
@@ -49,6 +70,7 @@ export async function getConversationCount(): Promise<number> {
 }
 
 export async function getRecentConversations(limit: number = 500) {
+  if (isDemoMode()) return demoGetRecentConversations(limit);
   try {
     const { data, error } = await supabase()
       .from("conversations")
@@ -63,6 +85,7 @@ export async function getRecentConversations(limit: number = 500) {
 }
 
 export async function getLatestEvalRun() {
+  if (isDemoMode()) return demoGetLatestEvalRun();
   try {
     const { data, error } = await supabase()
       .from("eval_runs")
@@ -78,6 +101,7 @@ export async function getLatestEvalRun() {
 }
 
 export async function getEvalRuns(limit: number = 20) {
+  if (isDemoMode()) return demoGetEvalRuns(limit);
   try {
     const { data, error } = await supabase()
       .from("eval_runs")

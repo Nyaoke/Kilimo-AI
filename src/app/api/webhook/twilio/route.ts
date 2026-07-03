@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ask } from "@/lib/ask";
 import { logConversation } from "@/lib/conversations";
+import { isDemoMode } from "@/lib/demo";
 import { hashPhone } from "@/lib/hash";
 import { logger } from "@/lib/logger";
 import { verifyTwilioSignature, twimlMessage } from "@/lib/twilio";
@@ -33,7 +34,8 @@ export async function POST(req: NextRequest) {
     const signature = req.headers.get("x-twilio-signature");
     const url = getWebhookUrl(req);
 
-    if (!verifyTwilioSignature(signature, url, params)) {
+    const skipVerify = isDemoMode() && !process.env.TWILIO_AUTH_TOKEN;
+    if (!skipVerify && !verifyTwilioSignature(signature, url, params)) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 

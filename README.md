@@ -36,14 +36,16 @@ Next.js /api/webhook/twilio
 ## Setup
 
 1. Clone the repo and install dependencies: `npm install`
-2. Copy `.env.example` to `.env.local` and fill in all values
-3. Create a Supabase project and run the migration in `supabase/migrations/0001_initial.sql` via the SQL editor
-4. Seed the knowledge base: `npm run seed`
-5. Start the dev server: `npm run dev`
-6. Test without WhatsApp:
+2. **Quick demo (no API keys):** copy `.env.example` to `.env.local`, set `DEMO_MODE=true`, then `npm run dev`. Open http://localhost:3000
+3. **Full setup:** copy `.env.example` to `.env.local` and fill in all values
+4. Create a Supabase project and run the migration in `supabase/migrations/0001_initial.sql` via the SQL editor
+5. Seed the knowledge base: `npm run seed`
+6. Start the dev server: `npm run dev`
+7. Test without WhatsApp:
    - English: `http://localhost:3000/api/dev/ask?q=How do I control fall armyworm in maize?&lang=en`
    - Swahili: `http://localhost:3000/api/dev/ask?q=Nidhibitije viwavijeshi kwenye mahindi?&lang=sw`
-7. Open `http://localhost:3000` for the landing page and `/admin` for the dashboard
+8. Run the smoke test: `npm run demo:smoke`
+9. Open `http://localhost:3000` for the landing page and `/admin` for the dashboard
 
 ## Deploy
 

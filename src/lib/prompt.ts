@@ -1,5 +1,3 @@
-import "server-only";
-
 import type { KbEntry, Language } from "@/types";
 
 export const PROMPT_VERSION = "v1.0.0";

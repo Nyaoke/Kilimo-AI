@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { getConversationCount } from "@/lib/conversations";
+import { isDemoMode } from "@/lib/demo";
 
 export async function Landing() {
+  const demo = isDemoMode();
   let questionCount = 0;
   try {
     questionCount = await getConversationCount();
@@ -14,6 +16,11 @@ export async function Landing() {
 
   return (
     <div className="min-h-screen bg-paper text-loam">
+      {demo && (
+        <div className="border-b border-murram/30 bg-murram/10 px-6 py-2 text-center font-mono text-xs text-murram-dark">
+          Demo mode: in-memory KB and sample conversations. Add API keys in .env.local for live Claude + Supabase.
+        </div>
+      )}
       <main className="mx-auto max-w-4xl px-6 py-16">
         {/* Hero */}
         <section className="mb-20">

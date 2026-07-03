@@ -1,8 +1,6 @@
-import "server-only";
-
 import { ask, ASK_MODEL } from "@/lib/ask";
+import { demoSaveEvalRun, isDemoMode } from "@/lib/demo";
 import { PROMPT_VERSION } from "@/lib/prompt";
-import { supabase } from "@/lib/supabase";
 import type { EvalCaseResult, EvalRunSummary } from "@/types";
 import { GOLDEN_CASES } from "./golden";
 import { judge } from "./judge";
@@ -47,19 +45,24 @@ export async function runEvals(commitSha?: string | null): Promise<EvalRunSummar
     details,
   };
 
-  try {
-    await supabase().from("eval_runs").insert({
-      commit_sha: summary.commit_sha,
-      model: summary.model,
-      prompt_version: summary.prompt_version,
-      total_cases: summary.total_cases,
-      passed: summary.passed,
-      failed: summary.failed,
-      average_score: summary.average_score,
-      details: summary.details,
-    });
-  } catch {
-    // Non-fatal if DB unavailable during CLI run
+  if (isDemoMode()) {
+    demoSaveEvalRun(summary);
+  } else {
+    try {
+      const { supabase } = await import("@/lib/supabase");
+      await supabase().from("eval_runs").insert({
+        commit_sha: summary.commit_sha,
+        model: summary.model,
+        prompt_version: summary.prompt_version,
+        total_cases: summary.total_cases,
+        passed: summary.passed,
+        failed: summary.failed,
+        average_score: summary.average_score,
+        details: summary.details,
+      });
+    } catch {
+      // Non-fatal if DB unavailable during CLI run
+    }
   }
 
   return summary;
