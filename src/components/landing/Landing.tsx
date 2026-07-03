@@ -21,7 +21,7 @@ export async function Landing() {
           Demo mode: in-memory KB and sample conversations. Add API keys in .env.local for live Claude + Supabase.
         </div>
       )}
-      <main className="mx-auto max-w-4xl px-6 py-16">
+      <main className="mx-auto max-w-6xl px-6 py-16">
         {/* Hero */}
         <section className="mb-20">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-paper-2 px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-muted">
@@ -67,21 +67,23 @@ export async function Landing() {
           <h2 className="mb-10 font-display text-2xl font-semibold">
             What happens to a question
           </h2>
-          <div className="grid gap-8 sm:grid-cols-2">
+          <div className="grid grid-cols-4 gap-3 md:gap-6">
             {[
               { num: "01", title: "Ask", desc: "Farmer sends a question over WhatsApp in English or Swahili." },
               { num: "02", title: "Retrieve", desc: "The question is embedded and matched against 30 curated KB entries." },
               { num: "03", title: "Ground", desc: "Claude answers only from retrieved context, with source citations." },
               { num: "04", title: "Escalate", desc: "Low-confidence answers route to a human agronomist queue." },
             ].map((step) => (
-              <div key={step.num} className="border-l-2 border-line pl-6">
-                <span className="font-mono text-sm font-medium text-murram">
+              <div key={step.num} className="border-l-2 border-line pl-3 md:pl-4">
+                <span className="font-mono text-xs font-medium text-murram md:text-sm">
                   {step.num}
                 </span>
-                <h3 className="mt-1 font-display text-lg font-semibold">
+                <h3 className="mt-1 font-display text-sm font-semibold md:text-lg">
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm text-muted">{step.desc}</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted md:mt-2 md:text-sm">
+                  {step.desc}
+                </p>
               </div>
             ))}
           </div>
