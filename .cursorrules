@@ -1,0 +1,15 @@
+This is Kilimo AI, a WhatsApp-first agronomy bot for Kenyan smallholder farmers.
+
+Stack: Next.js 15 App Router, TypeScript, Tailwind 4, Supabase (Postgres + pgvector), Anthropic Claude, Voyage AI embeddings, Twilio WhatsApp.
+
+Rules:
+1. Never use em dashes anywhere. Use commas, colons, semicolons, or restructured sentences.
+2. Server-only code (Supabase service role, Anthropic key, Voyage key, Twilio secrets) must never leak into client bundles. Use "server-only" import guard.
+3. Every LLM response is validated with Zod before use. Malformed responses log and fall back gracefully.
+4. Phone numbers are always SHA-256 hashed with PHONE_HASH_SALT before logging.
+5. Twilio webhook signature must be verified on every request.
+6. Prompt versioning: any change to the system prompt bumps the version string in src/lib/prompt.ts and is recorded in eval_runs.
+7. Every new KB entry must include both English and Swahili question and answer, plus a real citation.
+8. Never invent scientific dosages, disease names, or agronomy facts. When unsure, mark TODO and flag for agronomist review.
+9. Prefer server components. Use client components only when interactivity requires it.
+10. Follow the design system in PROMPT.md section 9. Do not introduce new colors.

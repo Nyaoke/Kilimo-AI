@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-loam: var(--loam);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-murram: var(--murram);
+  --color-murram-dark: var(--murram-dark);
+  --color-growth: var(--growth);
+  --color-sky: var(--sky);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+:root {
+  --loam: #2a1f16;
+  --paper: #f4efe6;
+  --paper-2: #ece4d6;
+  --murram: #b5462b;
+  --murram-dark: #8f3620;
+  --growth: #3f7d4f;
+  --sky: #4a6b82;
+  --line: #d4c8b4;
+  --muted: #7a6c58;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background-color: var(--murram);
+  color: var(--paper);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--loam);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
